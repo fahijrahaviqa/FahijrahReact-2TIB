@@ -9,6 +9,7 @@ import ContactUts from "./pages/ContactUts";
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Orders = React.lazy(() => import("./pages/Orders"));
 const Customers = React.lazy(() => import("./pages/Customers"));
+const Products = React.lazy(() => import("./pages/Products"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const NotFound400 = React.lazy(() => import("./pages/NotFound400"));
 const NotFound401 = React.lazy(() => import("./pages/NotFound401"));
@@ -28,28 +29,29 @@ function App() {
       <Routes>
 
         {/* ========== ROUTE UTS ========== */}
-        <Route path="/" element={<HomeUts />} />
+        {/* <Route path="/" element={<HomeUts />} />
         <Route path="/menu" element={<MenuUts />} />
-        <Route path="/contact" element={<ContactUts />} />
+        <Route path="/contact" element={<ContactUts />} /> */}
         {/* <Route path="/about" element={<AboutUts />} /> */}
 
         {/* Layout utama */}
-        {/* <Route element={<MainLayout />}>
+        <Route element={<MainLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/400" element={<NotFound400 />} />
           <Route path="/401" element={<NotFound401 />} />
           <Route path="/403" element={<NotFound403 />} />
-        </Route> */}
+        </Route>
 
         {/* Layout autentikasi */}
-        {/* <Route element={<AuthLayout />}>
+        <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot" element={<Forgot />} />
-        </Route> */}
+        </Route>
 
         {/* Route fallback */}
         <Route path="*" element={<NotFound />} />

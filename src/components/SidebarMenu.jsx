@@ -1,11 +1,12 @@
-import { FiUser } from "react-icons/fi"; 
-import { HiOutlineUserGroup } from "react-icons/hi"; 
+import { FiUser } from "react-icons/fi";
+import { HiOutlineUserGroup } from "react-icons/hi";
 import { GiTerror } from "react-icons/gi";
 import { BiError } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import { AiFillHome } from "react-icons/ai";
+import { MdFastfood } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
 
 export default function SidebarMenu() {
@@ -32,26 +33,32 @@ export default function SidebarMenu() {
         </li>
         <li>
           <NavLink id="menu-3" to="/customers" className={menuClass}>
-            <HiOutlineUserGroup  className="mr-4 text-xl" /> <span>Customers</span>
+            <HiOutlineUserGroup className="mr-4 text-xl" />{" "}
+            <span>Customers</span>
           </NavLink>
         </li>
         <li>
           <NavLink id="menu-4" to="/users" className={menuClass}>
-            <FiUser  className="mr-4 text-xl" /> <span>Users</span>
+            <FiUser className="mr-4 text-xl" /> <span>Users</span>
           </NavLink>
         </li>
         <li>
-          <NavLink id="menu-5" to="/400" className={menuClass}>
+          <NavLink id="menu-5" to="/products" className={menuClass}>
+            <MdFastfood className="mr-4 text-xl" /> <span>Product</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink id="menu-6" to="/400" className={menuClass}>
             <BiError className="mr-4 text-xl" /> <span>NotFound400</span>
           </NavLink>
         </li>
         <li>
-          <NavLink id="menu-6" to="/401" className={menuClass}>
+          <NavLink id="menu-7" to="/401" className={menuClass}>
             <BiError className="mr-4 text-xl" /> <span>NotFound401</span>
           </NavLink>
         </li>
         <li>
-          <NavLink id="menu-7" to="/403" className={menuClass}>
+          <NavLink id="menu-8" to="/403" className={menuClass}>
             <BiError className="mr-4 text-xl" /> <span>NotFound403</span>
           </NavLink>
         </li>

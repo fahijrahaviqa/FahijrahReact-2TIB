@@ -5,6 +5,7 @@ import HomeUts from "./pages/HomeUts";
 import NavbarUts from "./components/NavbarUts";
 import ContactUts from "./pages/ContactUts";
 import ProductDetail from "./pages/ProductDetail";
+import Notes from "./pages/Notes"; 
 
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Orders = React.lazy(() => import("./pages/Orders"));
@@ -42,6 +43,7 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetail />} /> 
+          <Route path="/notes" element={<Notes />} />
           <Route path="/400" element={<NotFound400 />} />
           <Route path="/401" element={<NotFound401 />} />
           <Route path="/403" element={<NotFound403 />} />

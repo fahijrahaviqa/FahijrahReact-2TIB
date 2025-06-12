@@ -48,17 +48,22 @@ export default function SidebarMenu() {
           </NavLink>
         </li>
         <li>
-          <NavLink id="menu-6" to="/400" className={menuClass}>
+          <NavLink id="menu-6" to="/notes" className={menuClass}>
+            <FiUser className="mr-4 text-xl" /> <span>Notes</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink id="menu-7" to="/400" className={menuClass}>
             <BiError className="mr-4 text-xl" /> <span>NotFound400</span>
           </NavLink>
         </li>
         <li>
-          <NavLink id="menu-7" to="/401" className={menuClass}>
+          <NavLink id="menu-8" to="/401" className={menuClass}>
             <BiError className="mr-4 text-xl" /> <span>NotFound401</span>
           </NavLink>
         </li>
         <li>
-          <NavLink id="menu-8" to="/403" className={menuClass}>
+          <NavLink id="menu-9" to="/403" className={menuClass}>
             <BiError className="mr-4 text-xl" /> <span>NotFound403</span>
           </NavLink>
         </li>

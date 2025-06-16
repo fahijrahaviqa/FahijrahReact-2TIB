@@ -4,7 +4,7 @@ import AlertBox from "../components/AlertBox";
 import GenericTable from "../components/GenericTable";
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 export default function Notes() {
     const [loading, setLoading] = useState(false);
@@ -15,8 +15,10 @@ export default function Notes() {
     const [dataForm, setDataForm] = useState({
         title: "",
         content: "",
-        status: "",
     });
+
+    const [editMode, setEditMode] = useState(false);
+    const [editId, setEditId] = useState(null);
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
@@ -28,25 +30,44 @@ export default function Notes() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             setLoading(true);
             setError("");
             setSuccess("");
 
-            await notesAPI.createNote(dataForm);
+            if (editMode) {
+                const confirmEdit = window.confirm("Yakin ingin menyimpan perubahan?");
+                if (!confirmEdit) {
+                    setLoading(false);
+                    return;
+                }
 
-            setSuccess("Catatan berhasil ditambahkan!");
-            setDataForm({ title: "", content: "", status: "" });
+                await notesAPI.updateNote(editId, dataForm);
+                setSuccess("Catatan berhasil diperbarui!");
+            } else {
+                await notesAPI.createNote(dataForm);
+                setSuccess("Catatan berhasil ditambahkan!");
+            }
 
+            setDataForm({ title: "", content: "" });
+            setEditMode(false);
+            setEditId(null);
             setTimeout(() => setSuccess(""), 3000);
-
             loadNotes();
         } catch (err) {
             setError(`Terjadi kesalahan: ${err.message}`);
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleEdit = (note) => {
+        setEditMode(true);
+        setEditId(note.id);
+        setDataForm({
+            title: note.title,
+            content: note.content,
+        });
     };
 
     const handleDelete = async (id) => {
@@ -59,10 +80,8 @@ export default function Notes() {
             setSuccess("");
 
             await notesAPI.deleteNote(id);
-
             setSuccess("Catatan berhasil dihapus!");
             setTimeout(() => setSuccess(""), 3000);
-
             loadNotes();
         } catch (err) {
             setError(`Terjadi kesalahan: ${err.message}`);
@@ -97,10 +116,9 @@ export default function Notes() {
                 </h2>
             </div>
 
-            {/* Form Card */}
             <div className="bg-white rounded-2xl shadow-lg p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                    Tambah Catatan Baru
+                    {editMode ? "Edit Catatan" : "Tambah Catatan Baru"}
                 </h3>
 
                 {error && <AlertBox type="error">{error}</AlertBox>}
@@ -133,20 +151,38 @@ export default function Notes() {
                             duration-200 resize-none disabled:opacity-50"
                     />
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold
-                            rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500
-                            focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed
-                            transition-all duration-200 shadow-lg"
-                    >
-                        {loading ? "Mohon Tunggu..." : "Tambah Data"}
-                    </button>
+                    <div className="flex gap-2">
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold
+                                rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500
+                                focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed
+                                transition-all duration-200 shadow-lg"
+                        >
+                            {loading
+                                ? "Mohon Tunggu..."
+                                : editMode
+                                ? "Simpan Perubahan"
+                                : "Tambah Data"}
+                        </button>
+
+                        {editMode && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setEditMode(false);
+                                    setDataForm({ title: "", content: "" });
+                                }}
+                                className="px-4 py-3 bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold rounded-2xl"
+                            >
+                                Batal Edit
+                            </button>
+                        )}
+                    </div>
                 </form>
             </div>
 
-            {/* Notes Table */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden mt-10">
                 <div className="px-6 py-4">
                     <h3 className="text-lg font-semibold">
@@ -183,12 +219,21 @@ export default function Notes() {
                                         {note.content}
                                     </div>
                                 </td>
-                                <td className="px-6 py-4">
+                                <td className="px-6 py-4 flex items-center gap-2">
+                                    <button
+                                        onClick={() => handleEdit(note)}
+                                        disabled={loading}
+                                        title="Edit"
+                                    >
+                                        <AiFillEdit className="text-blue-400 hover:text-red-600 text-2xl transition-colors" />
+                                    </button>
+
                                     <button
                                         onClick={() => handleDelete(note.id)}
                                         disabled={loading}
+                                        title="Hapus"
                                     >
-                                        <AiFillDelete className="text-red-400 text-2xl hover:text-red-600 transition-colors" />
+                                        <AiFillDelete className="text-red-400 hover:text-red-600 text-2xl transition-colors" />
                                     </button>
                                 </td>
                             </>
